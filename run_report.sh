@@ -81,8 +81,33 @@ then
 	usage
 fi
 
+host="137.190.19.99" #address
+
+file=$(find ./ -name "Place_Holder") 
+ftp_success_msg="226 Transfer Complete"
+ftplog=$PWD/tmp/ftplogfile
 
 
+echo "Logging into ftp server as $user"
+	ftp -nv $host <<EOF > $ftplog
+		quote user $user
+			quote pass $pass
+				put $file
+					bye
+
+EOF
+
+grep "230 Login successful" $ftplog
+grep "226 Transfer complete" $ftplog
+rc=$?
+
+if [[ $rc -eq 0 ]]
+then
+echo "ftp OK"
+else
+echo "ftp Error"
+exit 1
+fi
 
 
 exit 0
