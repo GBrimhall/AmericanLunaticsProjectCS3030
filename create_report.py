@@ -28,6 +28,12 @@
 #===========================================================================
 
 import sys
+import sqlite3
+import time
+import datetime
+
+
+
 
 def Date(beg_date, end_date):
     """
@@ -37,6 +43,7 @@ def Date(beg_date, end_date):
     returns:
         YYYY-MM-DD hh:mm
     """
+    
 
 
 
@@ -54,6 +61,18 @@ def query_data(formatted_date):
     """
     query the db
     """
+    
+    #Connect to DB
+    conn = sqlite.connect('hw8SQLite.db'):
+        if (conn):
+            print("Connected to DB")
+    
+
+    #close the cursor
+
+    #close connection
+    conn.close()
+
 
 
     # test exist Not return -2
@@ -68,6 +87,11 @@ def main():
     """
     Test Function
     """
+
+
+
+
+
 
 
 
