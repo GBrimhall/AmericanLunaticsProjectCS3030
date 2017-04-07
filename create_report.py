@@ -43,8 +43,8 @@ def Date(beg_date, end_date):
         YYYY-MM-DD hh:mm
     """
     
-
-
+    BD =  datetime.datetime.strptime(beg_date, '%Y%m%d').strftime('%Y-%m-%d')
+    print(BD)
 
     #bad input return -1
 
@@ -90,7 +90,7 @@ def main():
     Test Function
     """
     query_data()
-
+    Date('20140407','20170409')
 
 
 
