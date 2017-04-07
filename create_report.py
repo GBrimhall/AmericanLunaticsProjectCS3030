@@ -28,6 +28,10 @@
 #===========================================================================
 
 import sys
+import sqlite3
+import time
+import datetime
+
 
 def Date(beg_date, end_date):
     """
@@ -42,18 +46,12 @@ def Date(beg_date, end_date):
 
     #bad input return -1
 
-def fix_len(data):
-    """
-    Format of the return
-    """
-    #sort data
-    #print(format)
-    #return 0
 
 def query_data(formatted_date):
     """
     query the db
     """
+        
 
 
     # test exist Not return -2
@@ -61,6 +59,13 @@ def query_data(formatted_date):
 
 
 
+def fix_len(data):
+    """
+    Format of the return
+    """
+    #sort data
+    #print(format)
+    #return 0
 
 
 #Main Function
