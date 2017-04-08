@@ -51,7 +51,7 @@ def Date(beg_date, end_date):
     print(type(BD), BD)
     EndDate = ED + ' 23:59:59'
     print(EndDate)
-    Return BegDate, EndDate
+    #Return BegDate, EndDate
     #bad input return -1
 
 
@@ -65,9 +65,9 @@ def query_data():
     if (conn):
         print("Connected to DB")
     c = conn.cursor()
-    c.execute('SELECT T.trans_id, T.trans_date, T.card_num, TL.Qty, TL.amt, P.prod_desc, T.total FROM trans T INNER JOIN trans_line TL ON T.trans_ID=TL.trans_ID INNER JOIN products P ON TL.prod_num=P.prod_num WHERE trans_date BETWEEN "2017-04-02 00:00" AND "2017-04-02 23:59" ORDER BY T.trans_ID')
+    c.execute('SELECT T.trans_id, T.trans_date, T.card_num, TL.Qty, TL.amt, P.prod_desc, T.total FROM trans T LEFT JOIN trans_line TL ON T.trans_ID=TL.trans_ID LEFT JOIN products P ON TL.prod_num=P.prod_num WHERE trans_date BETWEEN "2017-04-02 00:00" AND "2017-04-02 23:59" ORDER BY T.trans_ID')
     recs = c.fetchall()
-    for row in recs:
+    for row[1] in recs:
         print(row)
     #close the cursor
 
@@ -96,7 +96,7 @@ def main():
     Test Function
     """
     query_data()
-    dateF =  Date('20170402,'20170402')
+    #dateF =  Date('20170402,'20170402')
 
 
 
