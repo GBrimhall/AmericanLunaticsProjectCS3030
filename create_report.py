@@ -52,26 +52,13 @@ def Date(beg_date, end_date):
     returns:
         YYYY-MM-DD hh:mm
     """
-<<<<<<< HEAD
     
-    BD =  datetime.datetime.strptime(beg_date, '%Y%m%d').strftime('%Y-%m-%d')
-    print(type(BD), BD)
-    BegDate = BD + ' 00:00:00'
-    print(BegDate)
-    ED =  datetime.datetime.strptime(end_date, '%Y%m%d').strftime('%Y-%m-%d')
-    print(type(BD), BD)
-    EndDate = ED + ' 23:59:59'
-    print(EndDate)
-    #Return BegDate, EndDate
-    #bad input return -1
-=======
    
     if verify(beg_date) and verify(end_date):
         bDate = beg_date[:4]+'-'+beg_date[4:6]+'-'+beg_date[6:]+ ' 00:00:00'
         eDate = end_date[:4]+'-'+end_date[4:6]+'-'+end_Date[6:]+ ' 23:59:59'
     else:
         exit(-1)
->>>>>>> origin/cayden
 
 
 def query_data():
