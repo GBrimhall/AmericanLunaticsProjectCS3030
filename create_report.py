@@ -64,11 +64,60 @@ def query_data():
     conn = sqlite3.connect('hw8SQLite.db')
     if (conn):
         print("Connected to DB")
+        print("")
     c = conn.cursor()
-    c.execute('SELECT T.trans_id, T.trans_date, T.card_num, TL.Qty, TL.amt, P.prod_desc, T.total FROM trans T LEFT JOIN trans_line TL ON T.trans_ID=TL.trans_ID LEFT JOIN products P ON TL.prod_num=P.prod_num WHERE trans_date BETWEEN "2017-04-02 00:00" AND "2017-04-02 23:59" ORDER BY T.trans_ID')
+    
+    # Original query
+    #c.execute("""SELECT T.trans_id, T.trans_date, 
+        #T.card_num, TL.Qty, TL.amt, P.prod_desc, T.total 
+        #FROM trans T 
+        #LEFT JOIN trans_line TL ON T.trans_ID=TL.trans_ID 
+        #LEFT JOIN products P ON TL.prod_num=P.prod_num 
+        #WHERE trans_date 
+        #BETWEEN "2017-04-02 00:00" AND "2017-04-02 23:59" 
+        #ORDER BY T.trans_ID""")
+    #recs = c.fetchall()
+    #for row in recs:
+        #print(row)    
+    
+    
+    #group_concat(name separator ',')
+    #c.execute("""SELECT T.trans_id, T.trans_date,
+        #T.card_num, group_concat(TL.Qty), 
+        #group_concat( TL.amt),group_concat(P.prod_desc), T.total 
+        #FROM trans T 
+        #LEFT JOIN trans_line TL ON T.trans_ID=TL.trans_ID 
+        #LEFT JOIN products P ON TL.prod_num=P.prod_num 
+        #WHERE trans_date BETWEEN "2017-04-02 00:00" AND "2017-04-02 23:59" 
+        #GROUP BY T.trans_ID 
+        #ORDER BY T.trans_ID""")
+    #recs = c.fetchall()
+    #for row in recs:
+        #print(row)   
+    
+    c.execute("""SELECT T.trans_id, T.trans_date, 
+            T.card_num, TL.Qty, TL.amt, P.prod_desc, T.total 
+            FROM trans T 
+            LEFT JOIN trans_line TL ON T.trans_ID=TL.trans_ID 
+            LEFT JOIN products P ON TL.prod_num=P.prod_num 
+            WHERE trans_date 
+            BETWEEN "2017-04-02 00:00" AND "2017-04-02 23:59" 
+            ORDER BY T.trans_ID""")
+     
     recs = c.fetchall()
-    for row[1] in recs:
-        print(row)
+    index = 0
+    for row in recs:
+    #l = [list(row) for row in recs]
+        while row[0] == index
+            
+        index += 1
+        print(row[0])
+    
+    
+    
+    
+    
+    
     #close the cursor
 
     #close connection
