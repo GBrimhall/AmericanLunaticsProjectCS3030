@@ -44,8 +44,14 @@ def Date(beg_date, end_date):
     """
     
     BD =  datetime.datetime.strptime(beg_date, '%Y%m%d').strftime('%Y-%m-%d')
-    print(BD)
-
+    print(type(BD), BD)
+    BegDate = BD + ' 00:00:00'
+    print(BegDate)
+    ED =  datetime.datetime.strptime(end_date, '%Y%m%d').strftime('%Y-%m-%d')
+    print(type(BD), BD)
+    EndDate = ED + ' 23:59:59'
+    print(EndDate)
+    Return BegDate, EndDate
     #bad input return -1
 
 
@@ -90,7 +96,7 @@ def main():
     Test Function
     """
     query_data()
-    Date('20140407','20170409')
+    dateF =  Date('20170402,'20170402')
 
 
 
