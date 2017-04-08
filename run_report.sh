@@ -69,6 +69,7 @@ do
 done
 
 
+echo "hello1"
 #IF statement to test if parameters are set. -z checks to see if value is null
 if [[ -z $begDate ]] || [[ -z $endDate ]]
 then 
@@ -76,11 +77,12 @@ then
 elif [[ -z $email ]] || [[ -z $user ]]
 then
 	usage
-else [[ -z passwd ]]
+elif [[ -z $passwd ]]
 then
 	usage
 fi
 
+echo "hello4"
 host="137.190.19.99" #address
 
 file=$(find ./ -name "Place_Holder") 
