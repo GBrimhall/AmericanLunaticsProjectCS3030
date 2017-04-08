@@ -69,7 +69,6 @@ do
 done
 
 
-echo "hello1"
 #IF statement to test if parameters are set. -z checks to see if value is null
 if [[ -z $begDate ]] || [[ -z $endDate ]]
 then 
@@ -82,34 +81,48 @@ then
 	usage
 fi
 
-echo "hello4"
-host="137.190.19.99" #address
 
-file=$(find ./ -name "Place_Holder") 
-ftp_success_msg="226 Transfer Complete"
-ftplog=$PWD/tmp/ftplogfile
+HOST = '137.190.19.87'
+File = 'output.csv'
 
 
-echo "Logging into ftp server as $user"
-	ftp -nv $host <<EOF > $ftplog
-		quote user $user
-			quote pass $pass
-				put $file
-					bye
+# FTP transfer
+ftp(){
+	ftp -n $HOST <<END_SCRIPT 
+	quote USER $user
+	quote PASS $passwd
+	binary
+	put $File
+	quit
+END_SCRIPT
+exit 0
+}
 
-EOF
 
-grep "230 Login successful" $ftplog
-grep "226 Transfer complete" $ftplog
-rc=$?
+case error_code in
+	0)
+		date=`date +%Y_%m_%d_%H:%M`
+		theFile=trans_report_$date.zip
+		echo "Zipping up new file"
+		dir="$PWD/outfile.csv"
+		zip $PWD/$theFile $dir
+		echo "Transferring to FTP"
+		ftp
+		echo "Sending confirmation to email: $email"
+		` mail -s "Successfully transfered file ($HOST) " $email <<< "Successfully created a transaction report from $begDate to $endDate"`
+		;;	
+	-1)
+		echo "Sending error -1 to email: $email"
+		` mail -s "The create_report program exit with code -1 " $email <<< "Bad Input parameters begin date: $begDate and end date: $endDate"`
+		;;
+	-2)
+		echo "Sending error -2 to email: $email"
+		` mail -s "The create_report program exit with code -2 " $email <<< "No Transaction available from begin date: $begDate to end date: $endDate"`
+	;;
+esac
 
-if [[ $rc -eq 0 ]]
-then
-echo "ftp OK"
-else
-echo "ftp Error"
-exit 1
-fi
+
+
 
 
 exit 0
