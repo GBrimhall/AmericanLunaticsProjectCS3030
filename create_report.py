@@ -31,7 +31,7 @@ import sys
 import sqlite3
 import time
 import datetime
-
+import os
 
 def verify(date):
     """
@@ -65,7 +65,13 @@ def query_data():
     """
     query the db
     """
-    
+    report = ""
+    transID = -1
+    total = 0
+    fill = '0000000          '
+    count = 0
+    bDate = '2017-04-02 00:00'
+    eDate = '2017-04-02 23:59'
     #Connect to DB
     conn = sqlite3.connect('hw8SQLite.db')
     if (conn):
@@ -101,7 +107,9 @@ def query_data():
     #for row in recs:
         #print(row)   
     
-    c.execute("""SELECT T.trans_id, T.trans_date, 
+   
+   # Attempt with loop
+   c.execute("""SELECT T.trans_id, T.trans_date, 
             T.card_num, TL.Qty, TL.amt, P.prod_desc, T.total 
             FROM trans T 
             LEFT JOIN trans_line TL ON T.trans_ID=TL.trans_ID 
@@ -113,15 +121,12 @@ def query_data():
     recs = c.fetchall()
     index = 0
     for row in recs:
-    #l = [list(row) for row in recs]
+    l = [list(row) for row in recs]
         while row[0] == index
             
         index += 1
         print(row[0])
-    
-    
-    
-    
+
     
     
     #close the cursor
