@@ -36,28 +36,10 @@ def query_data():
     """
     query the db
     """
-    beg_date = '20170402'
-    end_date = '20170402'
-    if len(beg_date) != 8 || len(end_date) != 8 || isinstance(beg_date,int) != True || isinstance(end_date,int) != True:
-        eCode = -1
-    #exit -1
-    if int(beg_date[4:6]) > 12 || int(end_date[4:6]) > 12:
-        eCode = -1
-    #exit -1
-    if int(beg_date[6:8]) >31 || int(end_date[6:8]) > 31:
-        eCode = -1
-    #   exit -1
 
-    #Create Date Varaiables
-    bDate = str(beg_date[:4]) + "-" + str(beg_date[4:6]) + "-" + str(beg_date[6:8]) + " 00:00"
-    eDate = str(end_date[:4]) + "-" + str(end_date[4:6]) + "-" + str(end_date[6:8]) + " 23:59"
-
-    #getcurrent directory of file
-    dir_path = os.path.dirname(os.path.realpath(__file__))
-    sqlPath = dir_path + "/hw8SQLite.db"
 
     #connect to db
-    conn = sqlite3.connect(sqlPath)
+    conn = sqlite3.connect('hw8SQLite.db')
     c=conn.cursor()
 
 
@@ -66,16 +48,18 @@ def query_data():
     total = 0
     fill = '0000000          '
     count = 0
+    bDate = '2017-04-02 00:00'
+    eDate = '2017-04-02 23:59'
     # Query data AJ
     for row in c.execute("""SELECT trans_id, trans_date, card_num, qty, amt, prod_desc 
                             FROM trans 
                             LEFT JOIN trans_line USING (trans_id) 
                             LEFT JOIN products USING (prod_num) 
                             WHERE trans_date > '""" + bDate +"' AND trans_date < '" + eDate +"'"):
-            if row[0] is None:
-                        print("nothing") 
+        if row[0] is None:
+                    print("nothing") 
             #Determine if same transaction
-            if transID != row[0]:
+        if transID != row[0]:
                 #Generate report Data from new transaction
                 if report == "":
                     report = '{s:{c}>{n}}'.format(s=str(row[0]),n=5,c='0')
@@ -86,7 +70,7 @@ def query_data():
                         count += 1
 
                     #adds total to the new transaction
-                    report += '{s:{c}>{n}'.format(s=str('{:.2f}'.format(total)).replace('.',''),n=6, c='0')
+                    report += '{s:{c}>{n}}'.format(s=str('{:.2f}'.format(total)).replace('.',''),n=6, c='0')
                     report += '\n{s:{c}>{n}}'.format(s=str(row[0]),n=5, c='0')
 
                 # Adds first product to report
@@ -95,7 +79,7 @@ def query_data():
                 transDate = transDate.replace(' ','')
                 transDate = str(transDate[:12])     
                 report += transDate + str(row[2][-6:]) 
-                report += '{s:{c}>{n}}'.format(s=str(int(row[3])),n=2,c='0')
+                report += '{s:{c}>{n}}'.format(s=str(row[3])),n=2,c='0')
                 price = '{:.2f}'.format(row[4])
                 price = '{s:{c}>{n}}'.format(s=str(price).replace('.',''),n=6,c='0')
                 report += price + '{s:{c}<{n}}'.format(s=row[5],n=10,c=' ')
@@ -117,14 +101,14 @@ def query_data():
             # adds total then the new transaction
             report += '{s:{c}>{n}}'.format(s=str('{:.2f}'.format(total)).replace('.',''),n=6,c='0')
             print(report)
-            print('exit code would be ' + str(eCode)
+            print('exit code would be ' + str(eCode))
     
     
     
     #close the cursor
 
     #close connection
-    conn.close()
+    #conn.close()
 
 
 
@@ -140,7 +124,7 @@ def fix_len(data):
     #sort data
     #print(format)
     #return 0
-
+    pass
 
 #Main Function
 def main():
@@ -148,11 +132,8 @@ def main():
     Test Function
     """
     query_data()
-<<<<<<< HEAD
     #dateF =  Date('20170402,'20170402')
-=======
 
->>>>>>> origin/cayden
 
 
 
