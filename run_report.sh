@@ -83,7 +83,7 @@ fi
 
 
 HOST = '137.190.19.87'
-File = 'output.csv'
+File = 'hw8out.zip'
 
 
 # FTP transfer
@@ -98,14 +98,12 @@ END_SCRIPT
 exit 0
 }
 
-
+	#CHANGE THE PYTHON command
 case error_code in
 	0)
 		date=`date +%Y_%m_%d_%H:%M`
-		theFile=trans_report_$date.zip
 		echo "Zipping up new file"
-		dir="$PWD/outfile.csv"
-		zip $PWD/$theFile $dir
+		python -c'mport test2; test2.zip_file()'
 		echo "Transferring to FTP"
 		ftp
 		echo "Sending confirmation to email: $email"
