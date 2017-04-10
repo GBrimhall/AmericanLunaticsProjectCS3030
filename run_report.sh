@@ -98,12 +98,20 @@ END_SCRIPT
 exit 0
 }
 
+
+# Do wrapper
+create_report($begDate $endDate)
+
+
+#read return value and pass to case
+
+
 	#CHANGE THE PYTHON command
 case error_code in
 	0)
 		date=`date +%Y_%m_%d_%H:%M`
 		echo "Zipping up new file"
-		python -c'import test2; test2.zip_file()'
+		python -c'import test2; test2.zip_file()'  #attempt to call python function for zip
 		echo "Transferring to FTP"
 		ftp
 		echo "Sending confirmation to email: $email"
