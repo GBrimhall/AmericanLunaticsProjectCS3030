@@ -103,7 +103,7 @@ case error_code in
 	0)
 		date=`date +%Y_%m_%d_%H:%M`
 		echo "Zipping up new file"
-		python -c'mport test2; test2.zip_file()'
+		python -c'import test2; test2.zip_file()'
 		echo "Transferring to FTP"
 		ftp
 		echo "Sending confirmation to email: $email"
