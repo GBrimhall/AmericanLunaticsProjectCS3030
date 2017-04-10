@@ -30,12 +30,24 @@ import os
 import zipfile
 import sqlite3
 
-def everything():
+
+def help():
     """
-    yup
+    Help Funciton
     """
-    beg_date = '20170402'
-    end_date = '20170402'
+    print("Usage is: " + sys.argv[0] + "<begDate>  <endDate>")
+    exit(1)
+
+
+
+def query():
+    """
+    Pulls the arguments when the script is called
+    
+    """
+    # dates in db '20170402' '20170402'
+    beg_date = sys.argv[1]
+    end_date = sys.argv[2]
     #check date
     if len(beg_date) != 8 or len(end_date) != 8 or isinstance(beg_date,int) != True or isinstance(end_date,int) != True:
         eCode = -1
@@ -131,6 +143,7 @@ def everything():
     text_file.write('%s' % report)
     text_file.close()
 
+def zip_file(): 
     #Zip file
     with zipfile.ZipFile('hw8out.zip', 'w') as myzip:
         myzip.write('hw8out.xt')
@@ -144,7 +157,7 @@ def main():
     """
     Test Function
     """
-    everything()
+    query()
 
 
 if __name__=="__main__":
