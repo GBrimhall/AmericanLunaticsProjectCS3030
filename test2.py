@@ -48,15 +48,16 @@ def query():
     # dates in db '20170402' '20170402'
     beg_date = sys.argv[1]
     end_date = sys.argv[2]
+    eCode = ' '
     #check date
     if len(beg_date) != 8 or len(end_date) != 8 or isinstance(beg_date,int) != True or isinstance(end_date,int) != True:
-        eCode = -1
+        eCode = '-1'
     #   exit -1
     if int(beg_date[4:6]) > 12 or int(end_date[4:6]) > 12:
-        eCode = -1
+        eCode = '-1'
     #   exit -1
     if int(beg_date[6:8]) >31 or int(end_date[6:8]) > 31:
-        eCode = -1
+        eCode = '-1'
     #   exit -1
 
     #Create Date Variables
@@ -126,13 +127,13 @@ def query():
     #Determine if data in query
 
     if report == "":     
-        eCode = -2
+        eCode = '-2'
         #exit -2
     else:
         while (count < 3):
             report += fill
             count += 1
-        eCode = 0
+        eCode = '0'
         #exit = 0
         #adds total then then the new transaction
         report += '{s:{c}>{n}}'.format(s=str('{:.2f}'.format(total)).replace('.',''),n=6,c='0')
@@ -142,7 +143,8 @@ def query():
     text_file = open ('hw8out.xt', 'w')
     text_file.write('%s' % report)
     text_file.close()
-
+    
+    return(eCode)
 def zip_file(): 
     #Zip file
     with zipfile.ZipFile('hw8out.zip', 'w') as myzip:
