@@ -30,6 +30,11 @@ import os
 import zipfile
 import sqlite3
 
+beg_date = sys.argv[1]
+end_date = sys.argv[2]
+eCode = ' '
+
+
 
 def help():
     """
@@ -40,30 +45,34 @@ def help():
 
 
 
+def verify(date):
+    """
+    Verify correct date length
+    """
+    if len(date) == 8 and date.isdigit():
+        return True
+    else:
+        return False
+
+
 def query():
     """
     Pulls the arguments when the script is called
-    
+
+    Translate the date taken in 
+    Args:
+        beg_date(YYYYMMDD), end_date(YYYYMMDD)
+    returns:
+        YYYY-MM-DD hh:mm
     """
-    # dates in db '20170402' '20170402'
-    beg_date = sys.argv[1]
-    end_date = sys.argv[2]
-    eCode = ' '
-    #check date
-    if len(beg_date) != 8 or len(end_date) != 8 or isinstance(beg_date,int) != True or isinstance(end_date,int) != True:
+    if verify(beg_date) and verify(end_date):
+         bDate = beg_date[:4]+'-'+beg_date[4:6]+'-'+beg_date[6:]+ ' 00:00:00'
+        eDate = end_date[:4]+'-'+end_date[4:6]+'-'+end_Date[6:]+ ' 23:59:59'
+    else:
+        exit(-1)
         eCode = '-1'
-    #   exit -1
-    if int(beg_date[4:6]) > 12 or int(end_date[4:6]) > 12:
-        eCode = '-1'
-    #   exit -1
-    if int(beg_date[6:8]) >31 or int(end_date[6:8]) > 31:
-        eCode = '-1'
-    #   exit -1
-
-    #Create Date Variables
-    bDate = str(beg_date[:4]) + "-" + str(beg_date[4:6]) + "-" + str(beg_date[6:8]) + " 00:00"
-    eDate = str(end_date[:4]) + "-" + str(end_date[4:6]) + "-" + str(end_date[6:8]) + " 23:59"  
-
+    
+    
     #connect to db
     conn = sqlite3.connect('hw8SQLite.db')
     c=conn.cursor()
