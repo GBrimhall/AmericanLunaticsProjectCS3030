@@ -82,13 +82,15 @@ then
 fi
 
 
-HOST = '137.190.19.87'
-File = 'hw8out.zip'
+#HOST = "137.190.19.87"
+#File = 'company_trans_'+$begDate+'_'+$endDate+'.dat'
 
+#File = "company_trans_${begDate}'_'${endDate}.dat"
 
 # FTP transfer
 ftp(){
-	ftp -n $HOST <<END_SCRIPT 
+	File = "company_trans_${begDate}'_'${endDate}.dat"
+	ftp -n "137.190.19.87" <<END_SCRIPT 
 	quote USER $user
 	quote PASS $passwd
 	binary
@@ -100,28 +102,28 @@ exit 0
 
 
 # Do wrapper
-create_report($begDate $endDate)
+#create_report($begDate $endDate)
+#exit_code = 
+python3 ./create_report.py $begDate $endDate
 
-
-#read return value and pass to case
 
 
 	#CHANGE THE PYTHON command
-case error_code in
+case exit_code in
 	0)
 		date=`date +%Y_%m_%d_%H:%M`
 		echo "Zipping up new file"
-		python -c'import test2; test2.zip_file()'  #attempt to call python function for zip
+		python -c'import create_report.py; create_report.zip_file()'  #attempt to call python function for zip
 		echo "Transferring to FTP"
 		ftp
 		echo "Sending confirmation to email: $email"
 		` mail -s "Successfully transfered file ($HOST) " $email <<< "Successfully created a transaction report from $begDate to $endDate"`
 		;;	
-	-1)
+	1)
 		echo "Sending error -1 to email: $email"
 		` mail -s "The create_report program exit with code -1 " $email <<< "Bad Input parameters begin date: $begDate and end date: $endDate"`
 		;;
-	-2)
+	2)
 		echo "Sending error -2 to email: $email"
 		` mail -s "The create_report program exit with code -2 " $email <<< "No Transaction available from begin date: $begDate to end date: $endDate"`
 	;;
