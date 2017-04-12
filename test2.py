@@ -30,10 +30,11 @@ import os
 import zipfile
 import sqlite3
 
-beg_date = sys.argv[1]
-end_date = sys.argv[2]
+#beg_date = sys.argv[1]
+#end_date = sys.argv[2]
 eCode = ' '
-
+#bDate = ""
+#eDate = ""
 
 
 def help():
@@ -55,23 +56,32 @@ def verify(date):
         return False
 
 
-def query():
+def convert_date():
     """
-    Pulls the arguments when the script is called
-
-    Translate the date taken in 
     Args:
         beg_date(YYYYMMDD), end_date(YYYYMMDD)
     returns:
         YYYY-MM-DD hh:mm
     """
-    if verify(beg_date) and verify(end_date):
-         bDate = beg_date[:4]+'-'+beg_date[4:6]+'-'+beg_date[6:]+ ' 00:00:00'
-        eDate = end_date[:4]+'-'+end_date[4:6]+'-'+end_Date[6:]+ ' 23:59:59'
-    else:
-        exit(-1)
-        eCode = '-1'
+    beg_date = sys.argv[1]
+    end_date = sys.argv[2]
+    global eDate 
+    global bDate 
     
+    if verify(beg_date) and verify(end_date):
+        bDate = beg_date[:4]+'-'+beg_date[4:6]+'-'+beg_date[6:]+ ' 00:00:00'
+        eDate = end_date[:4]+'-'+end_date[4:6]+'-'+end_date[6:]+ ' 23:59:59'
+        print("after conversion", bDate, eDate)
+    else:
+        exit(1)
+        eCode = '1'
+    
+
+
+def query():
+    """
+    Pulls the arguments when the script is called
+    """
     
     #connect to db
     conn = sqlite3.connect('hw8SQLite.db')
@@ -138,6 +148,7 @@ def query():
     if report == "":     
         eCode = '-2'
         #exit -2
+        exit(2)
     else:
         while (count < 3):
             report += fill
@@ -168,8 +179,8 @@ def main():
     """
     Test Function
     """
+    convert_date()
     query()
-
 
 if __name__=="__main__":
     # Call Main
