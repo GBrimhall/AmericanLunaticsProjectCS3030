@@ -171,7 +171,9 @@ def query():
     text_file.write('%s' % report)
     text_file.close()
     
-    return(eCode)
+    c.close()
+    conn.close()
+
 
 
 def zip_file(): 
@@ -179,7 +181,6 @@ def zip_file():
     with zipfile.ZipFile('company_trans_'+ sys.argv[1] + '_'+ sys.argv[2]+'.dat.zip', 'w') as myzip:
         myzip.write('company_trans_'+ sys.argv[1] + '_'+ sys.argv[2]+'.dat')
 
-    #print('exit code would be ' + str(eCode))
 
 
 
