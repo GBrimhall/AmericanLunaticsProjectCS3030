@@ -64,8 +64,14 @@ def convert_date():
     returns:
         YYYY-MM-DD hh:mm
     """
-    beg_date = sys.argv[1]
-    end_date = sys.argv[2]
+    
+    if len(sys.argv) > 1:
+        beg_date = sys.argv[1]
+        end_date = sys.argv[2]
+    else:
+        help()
+    #beg_date = sys.argv[1]
+    #end_date = sys.argv[2]
     global eDate 
     global bDate 
     
