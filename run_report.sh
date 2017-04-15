@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 #
 # run_report.sh
 # Copyright (C) 2017 student1 <student1@CS3030_87>
@@ -44,6 +44,7 @@ usage()
 if [[ $1 == "--help" ]]
 then
 	usage
+	exit 1
 fi
 
 
@@ -92,7 +93,7 @@ toZip=company_trans_$dates.dat.zip
 # FTP transfer
 ftp()
 {
-	ip="137.190.19.87"
+	ip="137.190.19.85"
 	ftp -nv $ip <<END_SCRIPT
 	quote USER $user
 	quote PASS $passwd
