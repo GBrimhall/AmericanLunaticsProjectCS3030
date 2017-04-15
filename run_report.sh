@@ -132,12 +132,12 @@ then
 	elif [[ $ret == 1 ]]
 	then	
 		echo "Sending error 1 to email: $email"
-		` mail -s "The create_report program exit with code -1 " $email <<< "Bad Input parameters begin date: $begDate and end date: $endDate"`
+		` mail -s "The create_report program exit with code 1 " $email <<< "Bad Input parameters begin date: $begDate and end date: $endDate"`
 
 	elif [[ $ret == 2 ]]
 	then
 		echo "Sending error 2 to email: $email"
-		` mail -s "The create_report program exit with code -2 " $email <<< "No Transaction available from begin date: $begDate to end date: $endDate"`
+		` mail -s "The create_report program exit with code 2 " $email <<< "No Transaction available from begin date: $begDate to end date: $endDate"`
 	fi
 
 exit 0
