@@ -89,10 +89,11 @@ fi
 dates=$begDate\_$endDate
 theFile=company_trans_$dates.dat
 toZip=company_trans_$dates.dat.zip
+ip="137.190.19.85"
 # FTP transfer
-ftp()
+ftp_Send()
 {
-	ip="137.190.19.85"
+	#ip="137.190.19.85"
 	ftp -nv $ip <<ZZTOP
 	quote USER $user
 	quote PASS $passwd
@@ -125,9 +126,9 @@ then
 		#zip 'company_trans_'$begDate'_'$endDate'.dat.zip' 'company_trans_'$begDate'_'$endDate'.dat'
 		zip $toZip $theFile
 		echo "Transferring to FTP"
-		ftp
+		ftp_Send
 		echo "Sending confirmation to email: $email"
-		` mail -s "Successfully transfered file ($HOST) " $email << "Successfully created a transaction report from $begDate to $endDate"`
+		` mail -s "Successfully transfered file ($ip) " $email <<< "Successfully created a transaction report from $begDate to $endDate"`
 
 	elif [[ $ret == 1 ]]
 	then	
