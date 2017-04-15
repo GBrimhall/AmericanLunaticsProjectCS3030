@@ -89,17 +89,16 @@ fi
 dates=$begDate\_$endDate
 theFile=company_trans_$dates.dat
 toZip=company_trans_$dates.dat.zip
-
 # FTP transfer
 ftp()
 {
 	ip="137.190.19.85"
-	ftp -nv $ip <<END_SCRIPT
+	ftp -nv $ip <<ZZTOP
 	quote USER $user
 	quote PASS $passwd
 	put $toZip
 	quit
-END_SCRIPT
+ZZTOP
 exit 0
 }
 
@@ -116,8 +115,9 @@ ret=$?
 #theFile=company_trans_$dates.dat
 #toZip=company_trans_$dates.dat.zip
 
+echo "exit code is: $ret"
 
-if [[ $ret == 0 ]]
+if [[ $ret ==  0 ]]
 then	
 	date=`date +%Y_%m_%d_%H:%M`
 		echo "Zipping up new file"
@@ -131,12 +131,12 @@ then
 
 	elif [[ $ret == 1 ]]
 	then	
-		echo "Sending error -1 to email: $email"
+		echo "Sending error 1 to email: $email"
 		` mail -s "The create_report program exit with code -1 " $email <<< "Bad Input parameters begin date: $begDate and end date: $endDate"`
 
 	elif [[ $ret == 2 ]]
 	then
-		echo "Sending error -2 to email: $email"
+		echo "Sending error 2 to email: $email"
 		` mail -s "The create_report program exit with code -2 " $email <<< "No Transaction available from begin date: $begDate to end date: $endDate"`
 	fi
 
