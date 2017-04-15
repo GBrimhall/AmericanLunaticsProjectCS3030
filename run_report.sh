@@ -23,14 +23,13 @@
 #         NOTES: ---
 #        AUTHOR: Micheal Brewer (), mbrewerramirez@mail.weber.edu
 #		 AUTHOR: Gavin Brimhall, gavinbrimhall@mail.weber.edu
-#		 AUTHOR:
+#		 AUTHOR: Cayden Allen, caydenallen@mail.weber.edu
 #  ORGANIZATION:
 #       CREATED: 04/05/2017 21:14
 #      REVISION:  ---
 #===============================================================================
 
 #set -o nounset                  # Treat unset variables as an error
-
 
 # how the script is suppose to be used.
 usage()
@@ -86,15 +85,18 @@ fi
 #File = 'company_trans_'+$begDate+'_'+$endDate+'.dat'
 
 #File = "company_trans_${begDate}'_'${endDate}.dat"
+dates=$begDate\_$endDate
+theFile=company_trans_$dates.dat
+toZip=company_trans_$dates.dat.zip
 
 # FTP transfer
-ftp(){
-	File = "company_trans_${begDate}'_'${endDate}.dat"
-	ftp -n "137.190.19.87" <<END_SCRIPT
+ftp()
+{
+	ip="137.190.19.87"
+	ftp -nv $ip <<END_SCRIPT
 	quote USER $user
 	quote PASS $passwd
-	binary
-	put $File
+	put $toZip
 	quit
 END_SCRIPT
 exit 0
@@ -104,27 +106,37 @@ exit 0
 # Do wrapper
 #create_report($begDate $endDate)
 #exit_code =
+PYTHON="/usr/bin/python3"
 
 #CHANGE THE PYTHON command
 python3 ./create_report.py $begDate $endDate
 ret=$?
+#dates=$begDate\_$endDate
+#theFile=company_trans_$dates.dat
+#toZip=company_trans_$dates.dat.zip
+
 
 if [[ $ret == 0 ]]
-		date=`date +%Y_%m_%d_%H:%M`
+then	
+	date=`date +%Y_%m_%d_%H:%M`
 		echo "Zipping up new file"
-		python -c 'import create_report.py; create_report.zip_file()'  #attempt to call python function for zip
+		#`$PYTHON -c 'import create_report.py; create_report.zip_file()'`  #attempt to call python function for zip
+		#zip 'company_trans_'$begDate'_'$endDate'.dat.zip' 'company_trans_'$begDate'_'$endDate'.dat'
+		zip $toZip $theFile
 		echo "Transferring to FTP"
 		ftp
 		echo "Sending confirmation to email: $email"
-		` mail -s "Successfully transfered file ($HOST) " $email <<< "Successfully created a transaction report from $begDate to $endDate"`
+		` mail -s "Successfully transfered file ($HOST) " $email << "Successfully created a transaction report from $begDate to $endDate"`
 
-else if [[ $ret == 1 ]]
+	elif [[ $ret == 1 ]]
+	then	
 		echo "Sending error -1 to email: $email"
 		` mail -s "The create_report program exit with code -1 " $email <<< "Bad Input parameters begin date: $begDate and end date: $endDate"`
 
-else if [[ $ret == 2 ]]
+	elif [[ $ret == 2 ]]
+	then
 		echo "Sending error -2 to email: $email"
 		` mail -s "The create_report program exit with code -2 " $email <<< "No Transaction available from begin date: $begDate to end date: $endDate"`
-
+	fi
 
 exit 0
